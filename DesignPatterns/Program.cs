@@ -1,10 +1,10 @@
 ﻿using Factory;
 using Factory2;
 
-var returnHumans = new ExecuteFirstFactory();
-returnHumans.Main();
-Console.WriteLine("");
-Console.WriteLine("");
-Console.WriteLine("");
-var returnHumans2 = new ExecuteSecondFactory();
-returnHumans2.Main();
+var pageFactory = new ExecutePageVisionFactory();
+pageFactory.Main();
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
+var appFactory = new ExecuteAppFactory();
+appFactory.Main();

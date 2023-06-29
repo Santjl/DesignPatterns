@@ -1,66 +1,64 @@
 ﻿namespace Factory
 {
-    public interface IHuman
+    public interface IPage
     {
-        string HumanCapacibilities();
+        string PageName();
     }
-    abstract class HumanFactory
+    abstract class PageFactory
     {
-        public abstract IHuman CreateHuman();
+        public abstract IPage GeneratePage(string role);
 
-        public string HumanCapacibilities()
+        public string ViewPage(string role)
         {
-            var human = CreateHuman();
-            return $"This human have this capacibilities: {human.HumanCapacibilities()}";
+            var page = GeneratePage(role);
+            return $"Open {page.PageName()} page like {role}";
         }
     }
 
-    class SuperHuman : HumanFactory
+    class FeedPage : PageFactory
     {
-        public override IHuman CreateHuman()
+        public override IPage GeneratePage(string role)
         {
-            return new Human("Fly");
+            return new Page("Feed");
         }
     }
 
-    class NormalHuman : HumanFactory
+    class ProfilePage : PageFactory
     {
-        public override IHuman CreateHuman()
+        public override IPage GeneratePage(string role)
         {
-            return new Human("Walk");
+            return new Page("Profile");
         }
     }
 
-    class Human : IHuman
+    class Page : IPage
     {
-        public string Capacibilities { get; set; }
+        public string Name { get; set; }
 
-        public Human(string capacibilities)
+        public Page(string pageName)
         {
-            Capacibilities = capacibilities;
+            Name = pageName;
         }
 
-        public string HumanCapacibilities() 
+        string IPage.PageName()
         {
-            return Capacibilities;
+            return Name;
         }
     }
 
-    public class ExecuteFirstFactory
+    public class ExecutePageVisionFactory
     {
         public void Main()
         {
-            Console.WriteLine("Creating Normal Human: ");
-            ReturnHumanCapacibilities(new NormalHuman());
-            Console.WriteLine("=====================");
-            Console.WriteLine("Creating Super Human: ");
-            ReturnHumanCapacibilities(new SuperHuman());
-
+            Console.WriteLine("Please write your role:");
+            var role = Console.ReadLine();
+            ReturnPage(new ProfilePage(), role!);
+            ReturnPage(new FeedPage(), role!);
         }
 
-        private void ReturnHumanCapacibilities(HumanFactory factory)
+        private void ReturnPage(PageFactory factory, string role)
         {
-            Console.WriteLine(factory.HumanCapacibilities());
+            Console.WriteLine(factory.ViewPage(role));
         }
     }
 

@@ -1,55 +1,76 @@
 ﻿namespace Factory2
 {
-    public interface IHuman
+    public interface IPage
     {
-        string Action();
+        public bool OnlyAdmin { get;}
+        string Page();
     }
-    public class HumanFactory
+    public class AppFactory
     {
-        public void CreateHuman(string capacibilities)
+        public void BuildApp(string role)
         {
-            if (capacibilities.ToLower().Contains("fly"))
+            var pages = new List<IPage>
             {
-                Console.Write("This is a super human ");
-                var human = new SuperHuman();
-                Console.WriteLine($"and he/she {human.Action()}");
-            }
-            else
+                new AdministratorPage(),
+                new ConfigureAppPage(),
+                new LoginPage(),
+                new ProfilePage()
+            };
+
+            var isAdmin = role.ToLower() == "admin";
+            pages = pages.Where(x => x.OnlyAdmin == isAdmin).ToList();
+
+            Console.WriteLine("Pages:");
+            pages.ForEach(x =>
             {
-                Console.Write("This is a normal human ");
-                var human = new NormalHuman();
-                Console.WriteLine($"and he/she {human.Action()}");
-            }
+                Console.WriteLine($"- {x.Page()}");
+            });
         }
     }
 
-    class SuperHuman : IHuman
+    class AdministratorPage : IPage
     {
-        public string Action()
+        public bool OnlyAdmin { get; } = true;
+        public string Page()
         {
-            return "Fight crime";
+            return "AdministratorPainelPage";
         }
     }
 
-    class NormalHuman : IHuman
+    class ConfigureAppPage : IPage
     {
-        public string Action()
+        public bool OnlyAdmin { get; } = true;
+        public string Page()
         {
-            return "Live normal life";
+            return "ConfigureAppPage";
+        }
+    }
+    class LoginPage : IPage
+    {
+        public bool OnlyAdmin { get; } = false;
+        public string Page()
+        {
+            return "NormalPage";
+        }
+    }
+    class ProfilePage : IPage
+    {
+        public bool OnlyAdmin { get; } = false;
+        public string Page()
+        {
+            return "ProfilePage";
         }
     }
 
-    public class ExecuteSecondFactory
+    public class ExecuteAppFactory
     {
         public void Main()
         {
-            Console.WriteLine("Creating humans:");
-            var humanFactory = new HumanFactory();
-
-            humanFactory.CreateHuman("Walk");
-            Console.WriteLine("=====================");
-            humanFactory.CreateHuman("Walk and Fly");
-
+            Console.WriteLine("Please write your role:");
+            Console.WriteLine();
+            var role = Console.ReadLine();
+            var app = new AppFactory();
+            app.BuildApp(role!);
         }
     }
 
