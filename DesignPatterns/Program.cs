@@ -1,4 +1,5 @@
-﻿using Factory;
+﻿using Singleton;
+using Factory;
 using Factory2;
 using Builder;
 
@@ -14,3 +15,9 @@ appFactory.Main();
 Console.WriteLine("Builder");
 var builder = new ExecuteBuilder();
 builder.Main();
+
+Console.WriteLine();
+Console.WriteLine();
+Console.WriteLine();
+var singleton = new ExecuteSingleton();
+singleton.Main();

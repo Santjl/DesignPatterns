@@ -73,5 +73,4 @@
             app.BuildApp(role!);
         }
     }
-
 }
